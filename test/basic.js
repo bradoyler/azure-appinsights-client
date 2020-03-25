@@ -11,3 +11,7 @@ const query = 'customEvents | project name,timestamp,operation_Name,cloud_RoleNa
 client.query(query, timespan)
   .then(res => console.log(res))
   .catch(ex => console.error(ex))
+
+client.query(query, timespan, false)
+  .then(res => console.log(res))
+  .catch(ex => console.error(ex))

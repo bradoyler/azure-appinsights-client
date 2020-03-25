@@ -30,9 +30,16 @@ module.exports = ({ appId, apiKey, timeout = 20000 } = {}) => {
 
   instance.get = (url) => $http.get(url)
   instance.post = (url, data) => $http.post(url, data)
-  instance.query = (query, timespan) => {
+  instance.query = (query, timespan, convertTableResponse = true) => {
     return $http.post(`/query?timespan=${timespan}`, { query })
-      .then(res => convertTable(res.data.tables[0].columns, res.data.tables[0].rows))
+      .then(res => {
+        if (convertTableResponse) {
+          return convertTable(res.data.tables[0].columns, res.data.tables[0].rows)
+        } else {
+          const { rows, columns } = res.data.tables[0]
+          return { rows, columns }
+        }
+      })
   }
 
   // factory instance
